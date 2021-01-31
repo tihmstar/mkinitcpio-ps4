@@ -1,8 +1,8 @@
 #!/bin/bash
 
 build() {
-    if [ -f /etc/default/ps4_boot ]; then
-        add_file /etc/default/ps4_boot
+    if [ -f /etc/default/ps4 ]; then
+        add_file /etc/default/ps4
     fi
 
     add_runscript

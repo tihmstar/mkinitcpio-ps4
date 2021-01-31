@@ -1,11 +1,11 @@
 #!/bin/ash
 # hook name
-: ${PS4_HOOK_NAME:="ps4_boot"}
+: ${PS4_HOOK_NAME:="ps4"}
 
 # source config
-if [ -f /etc/default/ps4_boot ]; then
-    . /etc/default/ps4_boot
-    echo "[ps4] configuration file /etc/default/ps4_boot loaded"
+if [ -f /etc/default/ps4 ]; then
+    . /etc/default/ps4
+    echo "[ps4] configuration file /etc/default/ps4 loaded"
 fi
 
 # set defaults if not specified in config
