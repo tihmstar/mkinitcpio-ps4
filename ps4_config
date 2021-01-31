@@ -1,0 +1,6 @@
+# This file contains some information for the ps4 initcpio hook.
+
+#Define the path where linux is installed on the internal HDD
+BIND_PATH="/data/linux"
+
+# vim:set syntax=sh:

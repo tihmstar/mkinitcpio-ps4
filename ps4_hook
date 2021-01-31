@@ -1,0 +1,41 @@
+#!/bin/ash
+# hook name
+: ${PS4_HOOK_NAME:="ps4_boot"}
+
+# source config
+if [ -f /etc/default/ps4_boot ]; then
+    . /etc/default/ps4_boot
+    echo "[ps4] configuration file /etc/default/ps4_boot loaded"
+fi
+
+# set defaults if not specified in config
+: ${BIND_PATH:="/data/linux"}
+
+ps4_mount_handler () {
+    echo "[ps4] mount handler running..."
+    mount --bind "/ps4hdd${BIND_PATH}" $1
+}
+
+# main
+run_hook () {
+    echo "[ps4] --- run hook ---"
+    echo "[ps4] mkdir ps4hdd"
+    mkdir /ps4hdd
+    echo "[ps4] cryptsetup"
+    cryptsetup -d /key/eap_hdd_key.bin --cipher=aes-xts-plain64 -s 256 --offset=0 --skip=111669149696 create ps4hdd /dev/sda27
+    echo "[ps4] mount cryptsetup"
+    mount -t ufs -o ufstype=ufs2 /dev/mapper/ps4hdd /ps4hdd
+}
+
+#after mount
+run_latehook () {
+    echo "[ps4] --- run latehook ---"
+    echo "[ps4] copy eap_hdd_key"
+    mkdir -p /newroot/key
+    cp /key/eap_hdd_key.bin /newroot/key
+    echo "[ps4] copy firmware"
+    mkdir -p /newroot/lib/firmware
+    cp -r /lib/firmware/* /newroot/lib/firmware/
+}
+
+mount_handler=ps4_mount_handler

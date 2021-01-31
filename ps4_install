@@ -1,0 +1,18 @@
+#!/bin/bash
+
+build() {
+    if [ -f /etc/default/ps4_boot ]; then
+        add_file /etc/default/ps4_boot
+    fi
+
+    add_runscript
+}
+
+
+help() {
+    cat <<HELPEOF
+This hook mount ps4 internal HDD
+HELPEOF
+}
+
+# vim: set ft=sh ts=4 sw=4 et:
