@@ -13,18 +13,14 @@ fi
 
 ps4_mount_handler () {
     echo "[ps4] mount handler running..."
-    mount --bind "/ps4hdd${BIND_PATH}" $1
+    mount -o offset=$((40000000*512)) /dev/mapper/ps4hdd $1
 }
 
 # main
 run_hook () {
     echo "[ps4] --- run hook ---"
-    echo "[ps4] mkdir ps4hdd"
-    mkdir /ps4hdd
     echo "[ps4] cryptsetup"
     cryptsetup -d /key/eap_hdd_key.bin --cipher=aes-xts-plain64 -s 256 --offset=0 --skip=111669149696 create ps4hdd /dev/sda27
-    echo "[ps4] mount cryptsetup"
-    mount -t ufs -o ufstype=ufs2 /dev/mapper/ps4hdd /ps4hdd
 }
 
 #after mount
